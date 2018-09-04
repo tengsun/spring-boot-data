@@ -65,5 +65,23 @@ public class PersonDataController {
 	public Person noRollback(Person person) {
 		return personSvc.saveWithoutRollback(person);
 	}
+	
+	// for cache testing
+	
+	@RequestMapping("/cache")
+	public Person cache(Person person) {
+		return personSvc.findOne(person);
+	}
+	
+	@RequestMapping("/put")
+	public Person put(Person person) {
+		return personSvc.save(person);
+	}
+	
+	@RequestMapping("/evict")
+	public String evict(Long id) {
+		personSvc.remove(id);
+		return "ok";
+	}
 
 }
