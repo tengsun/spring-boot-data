@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class PersonDataController {
+	
+	// for repository testing
 
 	@Autowired
 	PersonRepository personRepo;
@@ -47,6 +49,21 @@ public class PersonDataController {
 	public List<Person> sort(String name, String address, Integer age) {
 		List<Person> persons = personRepo.findAll(new Sort(Sort.Direction.ASC, "age"));
 		return persons;
+	}
+	
+	// for transaction testing
+	
+	@Autowired
+	PersonService personSvc;
+	
+	@RequestMapping("/rollback")
+	public Person rollback(Person person) {
+		return personSvc.saveWithRollback(person);
+	}
+	
+	@RequestMapping("/norollback")
+	public Person noRollback(Person person) {
+		return personSvc.saveWithoutRollback(person);
 	}
 
 }
